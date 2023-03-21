@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+iframe[data-xstate] {
+  width: 100vw;
+  height: 50vh;
+  border: 0;
+  left: 0;
+  bottom: 0;
+}

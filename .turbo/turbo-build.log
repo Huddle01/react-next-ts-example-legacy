@@ -1,0 +1,28 @@
+
+> next-ts@ build /home/axit/locus/huddle01/DAO/examples/next-ts
+> next build
+
+info  - Linting and checking validity of types...
+warn  - The Next.js plugin was not detected in your ESLint configuration. See https://nextjs.org/docs/basic-features/eslint#migrating-existing-config
+
+./src/pages/index.tsx
+1:17  Warning: 'useEffect' is defined but never used.  @typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+info  - Creating an optimized production build...
+warn  - Compiled with warnings
+
+../../node_modules/.pnpm/debug@4.3.4_supports-color@9.3.1/node_modules/debug/src/node.js
+Module not found: ESM packages (supports-color) need to be imported. Use 'import' to reference the package instead. https://nextjs.org/docs/messages/import-esm-externals
+
+Import trace for requested module:
+../../node_modules/.pnpm/debug@4.3.4_supports-color@9.3.1/node_modules/debug/src/node.js
+../../node_modules/.pnpm/debug@4.3.4_supports-color@9.3.1/node_modules/debug/src/index.js
+../../node_modules/.pnpm/mediasoup-client@3.6.82/node_modules/mediasoup-client/lib/index.js
+../../sdk/web-core/dist/huddle01-web-core.cjs.prod.js
+../../sdk/web-core/dist/huddle01-web-core.cjs.js
+../../sdk/react/hooks/dist/huddle01-react-hooks.cjs.prod.js
+../../sdk/react/hooks/dist/huddle01-react-hooks.cjs.js
+
+info  - Collecting page data...
+ ELIFECYCLE  Command failed.
