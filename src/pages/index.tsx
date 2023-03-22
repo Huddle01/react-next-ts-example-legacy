@@ -10,7 +10,7 @@ import Button from '../components/Button';
 import SendButton from '../components/SendButton';
 import Video from '../components/Video';
 
-const Machine = () => {
+const App = () => {
   // refs
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -29,7 +29,7 @@ const Machine = () => {
       <div>
         <h1 className="text-6xl font-bold">
           Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
+          <a className="text-blue-600" href="https://huddle01.com">
             Huddle01 SDK!
           </a>
         </h1>
@@ -185,4 +185,4 @@ const Machine = () => {
   );
 };
 
-export default Machine;
+export default App;
