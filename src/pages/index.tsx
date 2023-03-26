@@ -67,7 +67,7 @@ const App = () => {
         <h2 className="text-3xl text-red-500 font-extrabold">Initialized</h2>
         <Button
           disabled={!state.matches('Initialized')}
-          onClick={() => send('JOIN_LOBBY')}
+          onClick={() => send({ type: 'JOIN_LOBBY', roomId: 'rsi-gfwf-fdn' })}
         >
           JOIN_LOBBY
         </Button>
@@ -113,15 +113,23 @@ const App = () => {
         <br />
         <h2 className="text-3xl text-green-600 font-extrabold">Room</h2>
         <div className="flex gap-4 flex-wrap">
-          <SendButton
+          <Button
             disabled={!state.matches('JoinedRoom')}
-            event={'PRODUCE_MIC'}
-          />
+            onClick={() =>
+              send({ type: 'PRODUCE_MIC', stream: state.context.micStream })
+            }
+          >
+            PRODUCE_MIC
+          </Button>
 
-          <SendButton
+          <Button
             disabled={!state.matches('JoinedRoom')}
-            event={'PRODUCE_CAM'}
-          />
+            onClick={() =>
+              send({ type: 'PRODUCE_CAM', stream: state.context.camStream })
+            }
+          >
+            PRODUCE_CAM
+          </Button>
 
           <SendButton
             disabled={!state.matches('JoinedRoom')}
