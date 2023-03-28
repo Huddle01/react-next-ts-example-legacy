@@ -215,11 +215,17 @@ const App = () => {
             .filter(peer => peer.cam)
             .map(peer => (
               <Video
+                className="video"
                 key={peer.peerId}
                 peerId={peer.peerId}
                 track={peer.cam}
                 debug
               />
+            ))}
+          {Object.values(peers)
+            .filter(peer => peer.mic)
+            .map(peer => (
+              <Audio key={peer.peerId} peerId={peer.peerId} track={peer.mic} />
             ))}
         </div>
       </div>
