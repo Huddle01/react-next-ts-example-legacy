@@ -1,17 +1,11 @@
 import React from 'react';
 
-import { useHuddle01Web } from '@huddle01/react/hooks';
+import { useMeetingMachine } from '@huddle01/react/hooks';
 
 import Button from './Button';
 
-const SendButton = ({
-  event,
-  disabled,
-}: {
-  event: string;
-  disabled: boolean;
-}) => {
-  const { send } = useHuddle01Web();
+const SendButton = ({ event, disabled }: { event: any; disabled: boolean }) => {
+  const { send } = useMeetingMachine();
 
   return (
     <div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import { useHuddle01Web } from '@huddle01/react/hooks';
+import { useMeetingMachine } from '@huddle01/react/hooks';
 
 const Video = ({
   peerId,
@@ -9,7 +9,7 @@ const Video = ({
   peerId: string;
   track: MediaStreamTrack;
 }) => {
-  const { state } = useHuddle01Web();
+  const { state } = useMeetingMachine();
 
   const getStream = (_track: MediaStreamTrack) => {
     const stream = new MediaStream();
