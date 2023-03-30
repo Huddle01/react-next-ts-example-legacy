@@ -28,8 +28,6 @@ const App = () => {
       videoRef.current.srcObject = state.context.camStream as MediaStream;
   });
 
-  console.log({ consumersIndex: state.context });
-
   const { initialize, isInitialized } = useHuddle01();
   const { joinLobby } = useLobby();
   const {
