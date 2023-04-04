@@ -28,7 +28,7 @@ const App = () => {
       videoRef.current.srcObject = state.context.camStream as MediaStream;
   });
 
-  const { initialize, isInitialized } = useHuddle01();
+  const { initialize } = useHuddle01();
   const { joinLobby } = useLobby();
   const {
     fetchAudioStream,
@@ -84,7 +84,7 @@ const App = () => {
         <h2 className="text-3xl text-blue-500 font-extrabold">Idle</h2>
         <Button
           disabled={!state.matches('Idle')}
-          onClick={() => initialize('INIT')}
+          onClick={() => initialize('YOUR_PROJECT_ID')}
         >
           INIT
         </Button>
@@ -95,7 +95,7 @@ const App = () => {
         <Button
           disabled={!joinLobby.isCallable}
           onClick={() => {
-            joinLobby('bcf-oplk-xyp');
+            joinLobby('YOUR_ROOM_ID');
           }}
         >
           JOIN_LOBBY
@@ -175,30 +175,6 @@ const App = () => {
 
           <Button disabled={!leaveRoom.isCallable} onClick={leaveRoom}>
             LEAVE_ROOM
-          </Button>
-
-          <Button
-            disabled={!state.matches('Initialized.JoinedRoom')}
-            onClick={() =>
-              send({ type: 'START_RECORDING', sourceUrl: 'localhost' })
-            }
-          >
-            START_RECORDING
-          </Button>
-          <Button
-            disabled={!state.matches('Initialized.JoinedRoom')}
-            onClick={() =>
-              send({
-                type: 'START_STREAMING',
-                streamingData: {
-                  type: 'youtube',
-                  rtmpEndpoint: 'http://localhost',
-                  sourceUrl: 'localhost',
-                },
-              })
-            }
-          >
-            START_STREAMING
           </Button>
         </div>
 
