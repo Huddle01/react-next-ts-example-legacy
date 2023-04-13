@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from "react";
 
-import { useEventListener, useHuddle01 } from '@huddle01/react';
-import { Audio, Video } from '@huddle01/react/components';
+import { useEventListener, useHuddle01 } from "@huddle01/react";
+import { Audio, Video } from "@huddle01/react/components";
 /* Uncomment to see the Xstate Inspector */
 // import { Inspect } from '@huddle01/react/components';
 
@@ -12,9 +12,9 @@ import {
   usePeers,
   useRoom,
   useVideo,
-} from '@huddle01/react/hooks';
+} from "@huddle01/react/hooks";
 
-import Button from '../components/Button';
+import Button from "../components/Button";
 
 const App = () => {
   // refs
@@ -22,8 +22,11 @@ const App = () => {
 
   const { state, send } = useMeetingMachine();
 
+  const [roomId, setRoomId] = useState("");
+  const [projectId, setProjectId] = useState("");
+
   // Event Listner
-  useEventListener('lobby:cam-on', () => {
+  useEventListener("lobby:cam-on", () => {
     if (state.context.camStream && videoRef.current)
       videoRef.current.srcObject = state.context.camStream as MediaStream;
   });
@@ -52,7 +55,7 @@ const App = () => {
     <div className="grid grid-cols-2">
       <div>
         <h1 className="text-6xl font-bold">
-          Welcome to{' '}
+          Welcome to{" "}
           <a className="text-blue-600" href="https://huddle01.com">
             Huddle01 SDK!
           </a>
@@ -82,9 +85,18 @@ const App = () => {
         </div>
 
         <h2 className="text-3xl text-blue-500 font-extrabold">Idle</h2>
+        <input
+          type="text"
+          placeholder="Your Project Id"
+          value={projectId}
+          onChange={(e) => setProjectId(e.target.value)}
+          className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none mr-2"
+        />
         <Button
-          disabled={!state.matches('Idle')}
-          onClick={() => initialize('YOUR_PROJECT_ID')}
+          disabled={!state.matches("Idle")}
+          onClick={() => {
+            initialize(projectId);
+          }}
         >
           INIT
         </Button>
@@ -92,10 +104,17 @@ const App = () => {
         <br />
         <br />
         <h2 className="text-3xl text-red-500 font-extrabold">Initialized</h2>
+        <input
+          type="text"
+          placeholder="Your Room Id"
+          value={roomId}
+          onChange={(e) => setRoomId(e.target.value)}
+          className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none mr-2"
+        />
         <Button
           disabled={!joinLobby.isCallable}
           onClick={() => {
-            joinLobby('YOUR_ROOM_ID');
+            joinLobby(roomId);
           }}
         >
           JOIN_LOBBY
@@ -123,8 +142,8 @@ const App = () => {
           </Button>
 
           <Button
-            disabled={!state.matches('Initialized.JoinedLobby')}
-            onClick={() => send('LEAVE_LOBBY')}
+            disabled={!state.matches("Initialized.JoinedLobby")}
+            onClick={() => send("LEAVE_LOBBY")}
           >
             LEAVE_LOBBY
           </Button>
@@ -186,8 +205,8 @@ const App = () => {
         <video ref={videoRef} autoPlay muted></video>
         <div className="grid grid-cols-4">
           {Object.values(peers)
-            .filter(peer => peer.cam)
-            .map(peer => (
+            .filter((peer) => peer.cam)
+            .map((peer) => (
               <Video
                 key={peer.peerId}
                 peerId={peer.peerId}
@@ -196,8 +215,8 @@ const App = () => {
               />
             ))}
           {Object.values(peers)
-            .filter(peer => peer.mic)
-            .map(peer => (
+            .filter((peer) => peer.mic)
+            .map((peer) => (
               <Audio key={peer.peerId} peerId={peer.peerId} track={peer.mic} />
             ))}
         </div>
