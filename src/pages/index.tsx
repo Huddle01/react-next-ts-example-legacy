@@ -12,7 +12,10 @@ import {
   usePeers,
   useRoom,
   useVideo,
+  useRecording,
 } from "@huddle01/react/hooks";
+
+import { useDisplayName } from "@huddle01/react/app-utils";
 
 import Button from "../components/Button";
 
@@ -23,13 +26,8 @@ const App = () => {
   const { state, send } = useMeetingMachine();
 
   const [roomId, setRoomId] = useState("");
+  const [displayNameText, setDisplayNameText] = useState("Guest");
   const [projectId, setProjectId] = useState("");
-
-  // Event Listner
-  useEventListener("lobby:cam-on", () => {
-    if (state.context.camStream && videoRef.current)
-      videoRef.current.srcObject = state.context.camStream as MediaStream;
-  });
 
   const { initialize } = useHuddle01();
   const { joinLobby } = useLobby();
@@ -49,7 +47,28 @@ const App = () => {
   } = useVideo();
   const { joinRoom, leaveRoom } = useRoom();
 
+  // Event Listner
+  useEventListener("lobby:cam-on", () => {
+    if (camStream && videoRef.current) videoRef.current.srcObject = camStream;
+  });
+
   const { peers } = usePeers();
+
+  const {
+    startRecording,
+    stopRecording,
+    error,
+    data: recordingData,
+  } = useRecording();
+
+  const { setDisplayName, error: displayNameError } = useDisplayName();
+
+  useEventListener("room:joined", () => {
+    console.log("room:joined");
+  });
+  useEventListener("lobby:joined", () => {
+    console.log("lobby:joined");
+  });
 
   return (
     <div className="grid grid-cols-2">
@@ -62,16 +81,18 @@ const App = () => {
         </h1>
 
         <h2 className="text-2xl">Room State</h2>
-        <h3>{JSON.stringify(state.value)}</h3>
+        <h3 className="break-words">{JSON.stringify(state.value)}</h3>
 
         <h2 className="text-2xl">Me Id</h2>
         <div className="break-words">
           {JSON.stringify(state.context.peerId)}
         </div>
-        <h2 className="text-2xl">Consumers</h2>
+        <h2 className="text-2xl">DisplayName</h2>
         <div className="break-words">
-          {JSON.stringify(state.context.consumers)}
+          {JSON.stringify(state.context.displayName)}
         </div>
+        <h2 className="text-2xl">Recording Data</h2>
+        <div className="break-words">{JSON.stringify(recordingData)}</div>
 
         <h2 className="text-2xl">Error</h2>
         <div className="break-words text-red-500">
@@ -93,7 +114,7 @@ const App = () => {
           className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none mr-2"
         />
         <Button
-          disabled={!state.matches("Idle")}
+          disabled={!initialize.isCallable}
           onClick={() => {
             initialize(projectId);
           }}
@@ -123,6 +144,21 @@ const App = () => {
         <br />
         <h2 className="text-3xl text-yellow-500 font-extrabold">Lobby</h2>
         <div className="flex gap-4 flex-wrap">
+          <input
+            type="text"
+            placeholder="Your Room Id"
+            value={displayNameText}
+            onChange={(e) => setDisplayNameText(e.target.value)}
+            className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none mr-2"
+          />
+          <Button
+            disabled={!setDisplayName.isCallable}
+            onClick={() => {
+              setDisplayName(displayNameText);
+            }}
+          >
+            {`SET_DISPLAY_NAME error: ${displayNameError}`}
+          </Button>
           <Button
             disabled={!fetchVideoStream.isCallable}
             onClick={fetchVideoStream}
@@ -190,6 +226,18 @@ const App = () => {
             onClick={() => stopProducingVideo()}
           >
             STOP_PRODUCING_CAM
+          </Button>
+
+          <Button
+            disabled={!startRecording.isCallable}
+            onClick={() =>
+              startRecording(`${window.location.href}rec/${roomId}`)
+            }
+          >
+            {`START_RECORDING error: ${error}`}
+          </Button>
+          <Button disabled={!stopRecording.isCallable} onClick={stopRecording}>
+            STOP_RECORDING
           </Button>
 
           <Button disabled={!leaveRoom.isCallable} onClick={leaveRoom}>
