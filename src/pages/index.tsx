@@ -27,7 +27,10 @@ const App = () => {
 
   const [roomId, setRoomId] = useState("");
   const [displayNameText, setDisplayNameText] = useState("Guest");
-  const [projectId, setProjectId] = useState("");
+  const [projectId, setProjectId] = useState(
+    process.env.NEXT_PUBLIC_PROJECT_ID || ""
+  );
+  const [accessToken, setAccessToken] = useState("");
 
   const { initialize } = useHuddle01();
   const { joinLobby } = useLobby();
@@ -132,10 +135,18 @@ const App = () => {
           onChange={(e) => setRoomId(e.target.value)}
           className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none mr-2"
         />
+        <input
+          type="text"
+          placeholder="Your Access Token (optional)"
+          value={accessToken}
+          onChange={(e) => setAccessToken(e.target.value)}
+          className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rpnounded-lg text-sm focus:outline-none mr-2"
+        />
         <Button
           disabled={!joinLobby.isCallable}
           onClick={() => {
-            joinLobby(roomId);
+            if (accessToken) joinLobby(roomId, accessToken);
+            else joinLobby(roomId);
           }}
         >
           JOIN_LOBBY
