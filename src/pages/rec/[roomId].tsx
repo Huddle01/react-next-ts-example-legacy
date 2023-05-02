@@ -8,10 +8,9 @@ import { useRouter } from "next/router";
 
 const App = () => {
   const router = useRouter();
+  const { peers } = usePeers();
 
   const [roomId, setRoomId] = useState(router.query.roomId?.toString() || "");
-
-  const { peers } = usePeers();
 
   useEffect(() => {
     setRoomId(router.query.roomId?.toString() || "");

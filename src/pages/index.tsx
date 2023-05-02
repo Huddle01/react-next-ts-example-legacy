@@ -27,9 +27,7 @@ const App = () => {
 
   const [roomId, setRoomId] = useState("");
   const [displayNameText, setDisplayNameText] = useState("Guest");
-  const [projectId, setProjectId] = useState(
-    process.env.NEXT_PUBLIC_PROJECT_ID || ""
-  );
+  const [projectId, setProjectId] = useState("");
   const [accessToken, setAccessToken] = useState("");
 
   const { initialize } = useHuddle01();
