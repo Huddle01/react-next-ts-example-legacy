@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@huddle01/react": "^0.0.9",
+    "@dapp-sdk/videomeet-huddle01": "file:../../meroku-sdk/packages/videomeet-huddle01/dist",
     "@xstate/inspect": "^0.7.1",
     "@xstate/react": "^3.2.1",
     "axios": "^1.3.4",
